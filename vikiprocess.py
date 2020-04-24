@@ -79,4 +79,4 @@ def show():
 	plt.ylabel('Numbers')
 	plt.legend()
 	plt.show()
-	return df['COUNTRY'][0].str
+	return 'Hello Sethu'
