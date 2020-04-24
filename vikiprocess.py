@@ -76,4 +76,4 @@ def show():
 	plt.ylabel('Numbers')
 	plt.legend()
 	plt.show()
-	
+	return "Chart Plotted"
