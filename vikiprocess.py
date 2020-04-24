@@ -8,6 +8,7 @@ import pandas as pd
 
 
 def show():
+	'''
 	pat1='/wiki/2020_coronavirus_pandemic_'
 
 	pat2='/wiki/2019%E2%80%9320_coronavirus_pandemic_in_mainland_China'
@@ -56,7 +57,9 @@ def show():
 		i=i+1
 	outfile.close()
 
-	df=pd.read_csv(tempname+'.csv',encoding="ISO-8859-1")
+	'''
+	#df=pd.read_csv(tempname+'.csv',encoding="ISO-8859-1")
+	df=pd.read_csv('mydata042420.csv',encoding="ISO-8859-1")
 
 	df.loc[df['COUNTRY'] == 'UnitedStates', 'COUNTRY'] = 'USA'
 	df.loc[df['COUNTRY'] == 'UnitedKingdom', 'COUNTRY'] = 'UK'
@@ -76,4 +79,4 @@ def show():
 	plt.ylabel('Numbers')
 	plt.legend()
 	plt.show()
-	return "Chart Plotted"
+	return df['COUNTRY']
