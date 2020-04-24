@@ -5,22 +5,22 @@ import datetime
 import csv
 import matplotlib.pyplot as plt
 import pandas as pd
+import schedule
+import time
 
+pat1='/wiki/2020_coronavirus_pandemic_'
 
-def show():
-	'''
-	pat1='/wiki/2020_coronavirus_pandemic_'
+pat2='/wiki/2019%E2%80%9320_coronavirus_pandemic_in_mainland_China'
 
-	pat2='/wiki/2019%E2%80%9320_coronavirus_pandemic_in_mainland_China'
+pat3='/wiki/2020_coronavirus_pandemic_in_India'
 
-	pat3='/wiki/2020_coronavirus_pandemic_in_India'
+x=datetime.datetime.now()
+x=x.strftime('%x')
+x=x.replace('/','')
 
-	x=datetime.datetime.now()
-	x=x.strftime('%x')
-	x=x.replace('/','')
+tempname="mydata"+x
 
-	tempname="mydata"+x
-
+def job():
 	content = wikipedia.page("Template:2019–20_coronavirus_pandemic_data").html()
 	soup=BeautifulSoup(content,"html.parser")
 	i=1
@@ -57,9 +57,9 @@ def show():
 		i=i+1
 	outfile.close()
 
-	'''
-	#df=pd.read_csv(tempname+'.csv',encoding="ISO-8859-1")
-	df=pd.read_csv('mydata042420.csv',encoding="ISO-8859-1")
+		
+	df=pd.read_csv(tempname+'.csv',encoding="ISO-8859-1")
+
 
 	df.loc[df['COUNTRY'] == 'UnitedStates', 'COUNTRY'] = 'USA'
 	df.loc[df['COUNTRY'] == 'UnitedKingdom', 'COUNTRY'] = 'UK'
@@ -68,9 +68,7 @@ def show():
 	df.loc[df['COUNTRY'] == 'Switzerland', 'COUNTRY'] = 'Swiss'
 	df.loc[df['COUNTRY'] == 'Belgium', 'COUNTRY'] = 'Belg'
 	df.loc[df['COUNTRY'] == 'Canada', 'COUNTRY'] = 'Cana'
-
 	plt.figure(figsize=(12,5))
-
 	plt.plot(df.COUNTRY,df.CASES,'r.-',label='CASES')
 	plt.plot(df.COUNTRY,df.DEATHS,'g.-',label='DEATHS')
 	plt.plot(df.COUNTRY,df.RECOVERED,'b.-',label='RECOVERED')
@@ -79,4 +77,12 @@ def show():
 	plt.ylabel('Numbers')
 	plt.legend()
 	plt.show()
-	return 'Hello Sethu'
+
+
+schedule.every(2).minutes.do(job)
+
+while True:
+	schedule.run_pending()
+	time.sleep(1)
+	
+
